@@ -3,32 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LevaêTraz | Painel inteligente de entregas</title>
+  <title>LevaêTraz | Entrega rápida e segura</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="theme-auto">
+<body>
   <header class="topbar">
-    <div class="container topbar__content">
+    <div class="container">
       <div class="brand">Levaê<span>Traz</span></div>
       <nav>
-        <a href="#painel">Acesso</a>
-        <a href="#trajeto">Trajeto</a>
-        <a href="#pagamento">Pagamento</a>
-        <a href="#assistente">Assistente</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#seguranca">Segurança</a>
+        <a href="#chamar-entregador">Chamar entregador</a>
+        <a href="#mapa">Mapa</a>
       </nav>
-      <div class="topbar__actions">
-        <div class="theme-switcher" aria-label="Trocar tema">
-          <button data-theme="light" title="Tema claro">☀️</button>
-          <button data-theme="dark" title="Tema escuro">🌙</button>
-          <button data-theme="colorful" title="Tema colorido">🌈</button>
-          <button data-theme="auto" title="Automático">🕒</button>
-        </div>
-        <button class="ghost" id="open-login">Entrar / Cadastrar</button>
-      </div>
+      <a class="cta" href="#chamar-entregador">Chamar agora</a>
     </div>
   </header>
 
@@ -36,268 +27,197 @@
     <section class="hero">
       <div class="container hero__grid">
         <div>
-          <p class="pill">Plataforma inteligente</p>
-          <h1>Delivery com login seguro, simulação de rota e assistente em tempo real.</h1>
-          <p class="lead">Alterne temas, escolha seu método de pagamento e acompanhe distância, preço e tempo estimado com mapa interativo.</p>
+          <p class="pill">Entrega de qualquer produto • 24/7</p>
+          <h1>Delivery que leva <span>tudo</span> com segurança e transparência.</h1>
+          <p class="lead">Peça compras, documentos, eletrônicos, remédios ou refeições. Acompanhe seu pedido pelo mapa integrado e receba com nome e localização confirmados.</p>
           <div class="hero__actions">
-            <a class="cta" href="#trajeto">Simular trajeto</a>
-            <a class="ghost" href="#assistente">Abrir assistente</a>
+            <a class="cta" href="#chamar-entregador">Chamar um entregador</a>
+            <a class="ghost" href="#seguranca">Ver diretrizes de segurança</a>
           </div>
           <div class="badges">
-            <span>Login e sessão segura</span>
-            <span>Roteiro com cálculo automático</span>
-            <span>Pagamentos flexíveis</span>
+            <span>Tempo médio: 25 min</span>
+            <span>Suporte humano em 3 min</span>
+            <span>Seguro para itens frágeis</span>
           </div>
         </div>
         <div class="card hero__card">
-          <h3>Status rápido</h3>
+          <h3>Resumo da entrega</h3>
           <ul class="summary">
-            <li><strong>Estimativa inicial:</strong> <span id="hero-eta">—</span></li>
-            <li><strong>Preço estimado:</strong> <span id="hero-price">—</span></li>
-            <li><strong>Distância:</strong> <span id="hero-distance">—</span></li>
-            <li><strong>Status:</strong> <span id="hero-status">Aguardando rota</span></li>
+            <li><strong>Produtos:</strong> qualquer categoria, embalagem segura.</li>
+            <li><strong>Segurança:</strong> checklist de higiene, contato sem toque, validação por nome e código.</li>
+            <li><strong>Localização:</strong> compartilhe endereço ou use geolocalização para precisão.</li>
+            <li><strong>Monitoramento:</strong> mapa integrado e status em tempo real.</li>
           </ul>
-          <p class="muted">Atualizado automaticamente a cada simulação.</p>
         </div>
       </div>
     </section>
 
-    <section id="painel" class="section">
-      <div class="container grid two">
-        <div class="card">
-          <header class="section__header">
-            <p class="pill">Acesso</p>
-            <h2>Login e criação de conta</h2>
-            <p class="muted">Entrar via e-mail, telefone ou redes sociais. Sessão validada e armazenada com segurança local.</p>
-          </header>
-          <div class="login__layout">
-            <form id="login-form" class="form" autocomplete="on">
-              <div class="tabs" role="tablist">
-                <button type="button" class="tab active" data-mode="login">Login</button>
-                <button type="button" class="tab" data-mode="register">Cadastro</button>
-              </div>
-              <label>
-                E-mail
-                <input type="email" name="email" placeholder="voce@email.com" required />
-              </label>
-              <label>
-                Telefone
-                <input type="tel" name="phone" placeholder="(DDD) 90000-0000" />
-              </label>
-              <label>
-                Senha
-                <input type="password" name="password" placeholder="••••••••" required />
-              </label>
-              <div class="social">
-                <button type="button" class="social__btn" data-social="google">Entrar com Google</button>
-                <button type="button" class="social__btn" data-social="facebook">Entrar com Facebook</button>
-                <button type="button" class="social__btn" data-social="apple">Entrar com Apple</button>
-              </div>
-              <div class="checkbox inline">
-                <input type="checkbox" name="remember" id="remember" />
-                <label for="remember">Manter sessão validada neste dispositivo</label>
-              </div>
-              <button class="cta" type="submit" id="login-submit">Entrar</button>
-              <p id="login-feedback" class="feedback" role="status"></p>
-            </form>
-            <aside class="session__info">
-              <div class="session__badge" id="session-badge">Sessão não iniciada</div>
-              <p>Validação local de sessão com token seguro em <code>localStorage</code> e aviso visual sempre que um login é realizado.</p>
-              <div class="session__actions">
-                <button id="validate-session" class="ghost">Validar sessão</button>
-                <button id="logout" class="ghost">Sair</button>
-              </div>
-            </aside>
-          </div>
-        </div>
-        <div class="card">
-          <header class="section__header">
-            <p class="pill">Tema</p>
-            <h2>Interface personalizável</h2>
-            <p class="muted">Selecione tema claro, escuro ou colorido. No modo automático, alternamos pelo horário do dia.</p>
-          </header>
-          <div class="theme__options">
-            <div>
-              <label for="auto-theme">Automático</label>
-              <div class="input-with-action">
-                <input id="auto-theme" type="text" value="Depende do horário local" readonly />
-                <button type="button" data-theme="auto">Ativar</button>
-              </div>
-            </div>
-            <div class="swatches">
-              <button class="swatch" data-theme="light">Claro</button>
-              <button class="swatch" data-theme="dark">Escuro</button>
-              <button class="swatch" data-theme="colorful">Colorido</button>
-            </div>
-            <p class="muted">Todas as telas, formulários e o mapa se adaptam imediatamente ao tema escolhido.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="trajeto" class="section alt">
+    <section id="servicos" class="section">
       <div class="container">
         <header class="section__header">
-          <p class="pill">Simulação</p>
-          <h2>Simule trajeto e calcule valores automaticamente</h2>
-          <p class="muted">Informe origem e destino, visualize o mapa, calcule distância, tempo e preço estimado com fórmula configurável.</p>
+          <p class="pill">Serviços</p>
+          <h2>Entregamos tudo o que você precisa</h2>
+          <p class="muted">Selecione o tipo de produto e personalize as instruções para o entregador. Temos protocolos específicos para itens frágeis, refrigerados ou de alto valor.</p>
         </header>
-        <div class="grid two">
-          <form id="route-form" class="card form">
-            <label>
-              Origem (endereço, cidade ou lat,lng)
-              <input type="text" name="start" placeholder="Av. Paulista, São Paulo" required />
-            </label>
-            <label>
-              Destino (endereço, cidade ou lat,lng)
-              <input type="text" name="end" placeholder="Copacabana, Rio de Janeiro" required />
-            </label>
-            <label>
-              Distância manual (km) caso não seja possível localizar
-              <input type="number" step="0.1" min="0.5" name="fallbackDistance" value="5" />
-            </label>
-            <div class="grid two small-gap">
-              <label>
-                Valor base (R$)
-                <input type="number" step="0.1" min="0" name="base" value="7.5" />
-              </label>
-              <label>
-                Taxa por km (R$)
-                <input type="number" step="0.1" min="0" name="rate" value="3.2" />
-              </label>
+        <div class="grid cards">
+          <article class="card">
+            <h3>Compras e mercados</h3>
+            <p>Listas completas, sacolas térmicas e conferência no ato da coleta.</p>
+          </article>
+          <article class="card">
+            <h3>Restaurantes e cafés</h3>
+            <p>Manuseio sem vazamentos, acomodação horizontal e transporte rápido.</p>
+          </article>
+          <article class="card">
+            <h3>Documentos e itens de valor</h3>
+            <p>Envelope lacrado, confirmação por nome e código do recebedor.</p>
+          </article>
+          <article class="card">
+            <h3>Farmácia e bem-estar</h3>
+            <p>Separação por receita, embalagem discreta e orientação de armazenagem.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="como-funciona">
+      <div class="container">
+        <header class="section__header">
+          <p class="pill">Como funciona</p>
+          <h2>Três passos para receber seu pedido</h2>
+        </header>
+        <div class="steps">
+          <div class="step">
+            <div class="step__badge">1</div>
+            <div>
+              <h3>Informe o que vamos entregar</h3>
+              <p>Escolha o tipo de produto, compartilhe observações e o nome de quem vai receber.</p>
             </div>
-            <div class="grid two small-gap">
-              <label>
-                Velocidade média (km/h)
-                <input type="number" step="1" min="10" name="speed" value="28" />
-              </label>
-              <label>
-                Fator de tráfego
-                <input type="number" step="0.1" min="0.5" name="traffic" value="1.2" />
-              </label>
+          </div>
+          <div class="step">
+            <div class="step__badge">2</div>
+            <div>
+              <h3>Compartilhe a localização</h3>
+              <p>Digite o endereço ou use geolocalização. O mapa integrado confirma a rota.</p>
             </div>
-            <div class="checkbox inline">
-              <input type="checkbox" id="handsfree" />
-              <label for="handsfree">Contato sem toque e validação por nome/código</label>
+          </div>
+          <div class="step">
+            <div class="step__badge">3</div>
+            <div>
+              <h3>Chame um entregador</h3>
+              <p>Receba a estimativa de chegada, status em tempo real e validação do recebedor.</p>
             </div>
-            <button class="cta" type="submit">Calcular e simular rota</button>
-            <p id="route-feedback" class="feedback" role="status"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="seguranca" class="section">
+      <div class="container">
+        <header class="section__header">
+          <p class="pill">Segurança</p>
+          <h2>Diretrizes de segurança e higiene</h2>
+          <p class="muted">Protocolos pensados para proteger clientes, entregadores e estabelecimentos.</p>
+        </header>
+        <div class="grid cards">
+          <article class="card">
+            <h3>Contato seguro</h3>
+            <p>Opção de entrega sem toque, validação por nome do recebedor e foto da entrega.</p>
+          </article>
+          <article class="card">
+            <h3>Higienização</h3>
+            <p>Álcool 70% antes e depois de cada entrega; embalagens externas protegidas.</p>
+          </article>
+          <article class="card">
+            <h3>Rastreamento</h3>
+            <p>Mapa integrado com localização do entregador e status por etapas.</p>
+          </article>
+          <article class="card">
+            <h3>Suporte ativo</h3>
+            <p>Canal direto para incidentes, reenvio e seguro para itens delicados.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="chamar-entregador" class="section alt">
+      <div class="container form__layout">
+        <div>
+          <header class="section__header">
+            <p class="pill">Formulário</p>
+            <h2>Chamar um entregador</h2>
+            <p class="muted">Preencha os dados para solicitar uma coleta e entrega. O mapa será atualizado conforme o endereço informado.</p>
+          </header>
+
+          <form id="delivery-form" class="card form">
+            <label>
+              Tipo de produto
+              <select name="produto" required>
+                <option value="">Selecione</option>
+                <option>Alimentos e bebidas</option>
+                <option>Mercado e hortifruti</option>
+                <option>Documentos e cartório</option>
+                <option>Farmácia e bem-estar</option>
+                <option>Eletrônicos / itens de valor</option>
+                <option>Outros</option>
+              </select>
+            </label>
+
+            <label>
+              Nome de quem vai receber
+              <input name="recebedor" type="text" placeholder="Nome completo" required />
+            </label>
+
+            <label>
+              Telefone para contato (opcional)
+              <input name="telefone" type="tel" placeholder="(DDD) 90000-0000" />
+            </label>
+
+            <label>
+              Endereço de entrega
+              <div class="input-with-action">
+                <input id="location" name="localizacao" type="text" placeholder="Rua, número, complemento" required />
+                <button type="button" id="geo-btn">Usar minha localização</button>
+              </div>
+            </label>
+
+            <label>
+              Observações para o entregador
+              <textarea name="observacoes" rows="3" placeholder="Portaria, bloco, instruções de segurança..."></textarea>
+            </label>
+
+            <label class="checkbox">
+              <input type="checkbox" id="safe-check" required />
+              Confirmo que revisei as diretrizes de segurança e desejo prosseguir.
+            </label>
+
+            <button class="cta" type="submit">Chamar entregador</button>
+            <p id="form-feedback" class="feedback" role="status"></p>
           </form>
-
-          <div class="card route__details">
-            <div class="metrics">
-              <div>
-                <p class="muted">Distância</p>
-                <p class="metric" id="distance">—</p>
-              </div>
-              <div>
-                <p class="muted">Preço estimado</p>
-                <p class="metric" id="price">—</p>
-              </div>
-              <div>
-                <p class="muted">Tempo estimado</p>
-                <p class="metric" id="eta">—</p>
-              </div>
-            </div>
-            <div class="status__list">
-              <div class="status__item" data-status="prep">Em preparação</div>
-              <div class="status__item" data-status="way">A caminho</div>
-              <div class="status__item" data-status="near">Próximo ao destino</div>
-            </div>
-            <div id="map" class="map" role="presentation" aria-label="Mapa de rota"></div>
-          </div>
         </div>
-      </div>
-    </section>
 
-    <section id="pagamento" class="section">
-      <div class="container grid two">
-        <div class="card">
-          <header class="section__header">
-            <p class="pill">Pagamentos</p>
-            <h2>Escolha o método</h2>
-            <p class="muted">Cartão, PIX, dinheiro, carteira digital e opção de pagar antecipado ou no recebimento.</p>
-          </header>
-          <div class="payments">
-            <label class="radio">
-              <input type="radio" name="payment" value="cartao" checked /> Cartão de crédito/débito
-            </label>
-            <label class="radio">
-              <input type="radio" name="payment" value="pix" /> PIX
-            </label>
-            <label class="radio">
-              <input type="radio" name="payment" value="dinheiro" /> Dinheiro
-            </label>
-            <label class="radio">
-              <input type="radio" name="payment" value="carteira" /> Carteira digital do app
-            </label>
-            <label class="radio">
-              <input type="radio" name="payment" value="antecipado" /> Pagamento antecipado
-            </label>
-            <label class="radio">
-              <input type="radio" name="payment" value="recebimento" /> Pagamento no recebimento
-            </label>
-          </div>
-        </div>
-        <div class="card summary__card">
-          <header class="section__header">
-            <p class="pill">Resumo</p>
-            <h2>Resumo do pedido</h2>
-            <p class="muted">Confirmação visual das principais informações do serviço.</p>
-          </header>
-          <ul class="summary" id="order-summary">
-            <li><strong>Origem:</strong> <span id="summary-start">—</span></li>
-            <li><strong>Destino:</strong> <span id="summary-end">—</span></li>
-            <li><strong>Distância:</strong> <span id="summary-distance">—</span></li>
-            <li><strong>Preço:</strong> <span id="summary-price">—</span></li>
-            <li><strong>Tempo:</strong> <span id="summary-time">—</span></li>
-            <li><strong>Pagamento:</strong> <span id="summary-payment">Cartão de crédito/débito</span></li>
-            <li><strong>Status:</strong> <span id="summary-status">Aguardando simulação</span></li>
+        <aside class="card tips">
+          <h3>Dicas rápidas de segurança</h3>
+          <ul>
+            <li>Prefira entregas sem toque quando possível.</li>
+            <li>Confira o nome do recebedor ao finalizar.</li>
+            <li>Mantenha itens frágeis identificados e bem embalados.</li>
+            <li>Use o campo de observações para pontos de referência.</li>
+            <li>Para remédios, separe receitas e orientações no pacote.</li>
           </ul>
-        </div>
+        </aside>
       </div>
     </section>
 
-    <section id="assistente" class="section alt">
-      <div class="container grid two">
-        <div class="card assistant__card">
-          <header class="section__header">
-            <p class="pill">Assistente</p>
-            <h2>Agente inteligente</h2>
-            <p class="muted">Dúvidas sobre preços, rotas, prazos e pagamentos. Sugestões de rota e soluções rápidas.</p>
-          </header>
-          <div class="assistant__body">
-            <div id="chat-log" class="chat__log" aria-live="polite"></div>
-            <form id="chat-form" class="chat__form">
-              <input type="text" id="chat-input" placeholder="Pergunte sobre preço, rota ou pagamento..." required />
-              <button type="submit" class="cta">Enviar</button>
-            </form>
-          </div>
-        </div>
-        <div class="card">
-          <header class="section__header">
-            <p class="pill">Confirmações visuais</p>
-            <h2>Navegação simples</h2>
-            <p class="muted">Ícones intuitivos, feedback instantâneo e trilha de status para cada etapa do pedido.</p>
-          </header>
-          <div class="grid cards small-gap">
-            <article class="card mini">
-              <h3>Mapa + rota</h3>
-              <p>Exibe partida e destino com linha simulada.</p>
-            </article>
-            <article class="card mini">
-              <h3>Assistente ativo</h3>
-              <p>Responde dúvidas e sugere atalhos de forma contextual.</p>
-            </article>
-            <article class="card mini">
-              <h3>Status dinâmico</h3>
-              <p>Atualização automática para "em preparação", "a caminho" e "próximo ao destino".</p>
-            </article>
-            <article class="card mini">
-              <h3>Pagamentos flexíveis</h3>
-              <p>Confirma se o método escolhido é compatível com pré-pagamento ou entrega.</p>
-            </article>
-          </div>
+    <section id="mapa" class="section">
+      <div class="container">
+        <header class="section__header">
+          <p class="pill">Mapa integrado</p>
+          <h2>Acompanhe a entrega em tempo real</h2>
+          <p class="muted">O mapa abaixo atualiza a área de entrega conforme o endereço digitado. Você pode arrastar, ampliar e confirmar pontos de referência.</p>
+        </header>
+        <div class="map-wrapper card">
+          <iframe id="map-frame" title="Mapa de entrega" loading="lazy" allowfullscreen src="https://www.google.com/maps?q=São%20Paulo&output=embed"></iframe>
         </div>
       </div>
     </section>
@@ -307,7 +227,7 @@
     <div class="container footer__grid">
       <div>
         <div class="brand">Levaê<span>Traz</span></div>
-        <p>Delivery multissetorial com login seguro, temas personalizáveis e simulação completa de trajeto.</p>
+        <p>Delivery multissetorial com protocolos de segurança, comunicação clara e mapa em tempo real.</p>
       </div>
       <div>
         <h4>Protocolos</h4>
@@ -330,21 +250,6 @@
     <p class="footer__bottom">© 2025 LevaêTraz Delivery • Seu pedido, nossa rota segura.</p>
   </footer>
 
-  <div id="login-modal" class="modal" aria-hidden="true" role="dialog">
-    <div class="modal__content">
-      <button class="modal__close" id="close-login" aria-label="Fechar">×</button>
-      <h3>Entrar no LevaêTraz</h3>
-      <p class="muted">Acesse com e-mail, telefone ou uma rede social para validar a sessão.</p>
-      <div class="social modal__social">
-        <button type="button" class="social__btn" data-social="google">Google</button>
-        <button type="button" class="social__btn" data-social="facebook">Facebook</button>
-        <button type="button" class="social__btn" data-social="apple">Apple</button>
-      </div>
-      <button class="cta" id="modal-login-action">Usar dados do formulário principal</button>
-    </div>
-  </div>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="script.js"></script>
 </body>
 </html>
